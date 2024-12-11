@@ -20,7 +20,7 @@ import com.HungSocial.Server.Service.User.UserService;
 
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class UserAuthController {
     @Autowired
     private UserAuthService userAuthService;

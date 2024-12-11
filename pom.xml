@@ -9,8 +9,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.HungSocial</groupId>
-    <artifactId>Server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>Server-HungSocial</artifactId>
+    <version>0.0.1</version>
     <name>Server</name>
     <description>Back_End for HungSocial</description>
     <url/>

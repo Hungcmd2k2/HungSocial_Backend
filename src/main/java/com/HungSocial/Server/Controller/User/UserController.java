@@ -1,6 +1,7 @@
 package com.HungSocial.Server.Controller.User;
 
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,29 @@ import com.HungSocial.Server.Service.User.UserService;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<ApiResponse<Object>> getUserById(@PathVariable Integer userId){
+        Optional<User> user = userService.getUserById(userId);
+        if(user.isPresent()){
+            ApiResponse<Object> response = new ApiResponse<>(
+                "success",
+                HttpStatus.OK.value(),
+                "Lấy dữ liệu người dùng thành công!",
+                user 
+            );
+            return ResponseEntity.ok(response);   
+        }else{
+            ApiResponse<Object> response = new ApiResponse<>(
+                "error",
+                HttpStatus.NOT_FOUND.value(),
+                "Lấy dữ liệu người dùng ko thành công!",
+                null 
+            );
+            return ResponseEntity.ok(response);    
+        }
+    }
+
 
     @PostMapping
     public ResponseEntity<ApiResponse<Object>> createUser(@RequestBody User user) {

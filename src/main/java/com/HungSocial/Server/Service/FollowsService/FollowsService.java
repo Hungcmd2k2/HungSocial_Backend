@@ -37,4 +37,8 @@ public class FollowsService {
     public  List<Follows> following_Who(Integer follower_id){
         return followsRepository.findFollowingByFollowerId(follower_id);
     }
+    //lấy danh sách follower
+    public  List<Follows> followers(Integer following_id){
+        return followsRepository.findFollowingByFollowingId(following_id);
+    }
 }

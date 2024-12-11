@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.HungSocial.Server.DTO.Response.ApiResponse;
@@ -14,6 +15,7 @@ import com.HungSocial.Server.Entity.ChatMessage.ChatMessage;
 import com.HungSocial.Server.Service.ChatMessage.ChatMessageService;
 
 @RestController
+@RequestMapping("/api")
 public class ChatMessageController {
     @Autowired
     private ChatMessageService chatMessageService;

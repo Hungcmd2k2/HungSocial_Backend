@@ -1,26 +1,14 @@
 package com.HungSocial.Server.DTO.OTP;
 
 public class OTPRequest {
-    private String userId;
     private String email;
     private String otp;
 
     // Constructor
-    public OTPRequest(String userId, String email , String otp) {
-        this.userId = userId;
+    public OTPRequest(String email , String otp) {
         this.email = email;
         this.otp = otp;
     }
-
-    // Getters và Setters
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getEmail() {
         return email;
     }

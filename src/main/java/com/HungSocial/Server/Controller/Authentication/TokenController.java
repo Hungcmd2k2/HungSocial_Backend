@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("api/auth")
 public class TokenController {
 
     @Autowired
@@ -48,27 +48,27 @@ public class TokenController {
     }
 
 
-    @PostMapping("/token")
-    public ResponseEntity<ApiResponse<Object>> checkToken(@RequestBody TokenRequest tokenRequest) {
+    // @PostMapping("/token")
+    // public ResponseEntity<ApiResponse<Object>> checkToken(@RequestBody TokenRequest tokenRequest) {
         
-        boolean valid = tokenService.validateToken(tokenRequest.getEmail(), tokenRequest.getToken());
+    //     boolean valid = tokenService.validateToken(tokenRequest.getEmail(), tokenRequest.getToken());
 
-        if (valid) {
-            ApiResponse<Object> response = new ApiResponse<>(
-                "success",
-                HttpStatus.OK.value(),
-                "Token hợp lệ",
-                null
-            );
-            return ResponseEntity.ok(response);
-        } else {
-            ApiResponse<Object> response = new ApiResponse<>(
-                "success",
-                HttpStatus.UNAUTHORIZED.value(),
-                "Token không hợp lệ",
-                null
-            );
-            return ResponseEntity.ok(response);
-        }
-    }
+    //     if (valid) {
+    //         ApiResponse<Object> response = new ApiResponse<>(
+    //             "success",
+    //             HttpStatus.OK.value(),
+    //             "Token hợp lệ",
+    //             null
+    //         );
+    //         return ResponseEntity.ok(response);
+    //     } else {
+    //         ApiResponse<Object> response = new ApiResponse<>(
+    //             "success",
+    //             HttpStatus.UNAUTHORIZED.value(),
+    //             "Token không hợp lệ",
+    //             null
+    //         );
+    //         return ResponseEntity.ok(response);
+    //     }
+    // }
 }

@@ -1,6 +1,7 @@
 package com.HungSocial.Server.Controller.Comment;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -14,13 +15,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.HungSocial.Server.Controller.Notifications.NotificationController;
 import com.HungSocial.Server.DTO.Comment.CommentRequest;
 import com.HungSocial.Server.DTO.Comment.CommentResponse;
 import com.HungSocial.Server.DTO.Response.ApiResponse;
 import com.HungSocial.Server.Entity.Comment.CommentEntity;
+import com.HungSocial.Server.Entity.Notification.NotificationEntity;
+import com.HungSocial.Server.Entity.Posts.Post;
 import com.HungSocial.Server.Entity.User.User;
 import com.HungSocial.Server.Entity.UserDetails.UserDetails;
 import com.HungSocial.Server.Service.Comment.CommentService;
+import com.HungSocial.Server.Service.Posts.PostService;
 import com.HungSocial.Server.Service.User.UserService;
 
 @RestController
@@ -31,11 +36,28 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private PostService postService;
+     @Autowired
+    private NotificationController  notifiControl;
     @PostMapping("/create")
     public ResponseEntity<ApiResponse<Object>> addComment(@RequestBody CommentRequest cm) {
         CommentEntity comment = commentService.addComment(cm);
+        Optional<User> userCommented = userService.getUserById(cm.getUserId());
+         Optional<UserDetails> userCommentDetail = userService.getUserDetail(cm.getUserId());
+         Optional<Post> postInfo = postService.findPostById(cm.getPostId());
+         Optional<User> postMaster = userService.getUserById(postInfo.get().getUserId());
+
+          NotificationEntity entity = new NotificationEntity();
+        entity.setUserid(postInfo.get().getUserId());
+        entity.setAvatarNotifi(userCommentDetail.get().getAvatar());
+        entity.setUsernameNotifi(userCommented.get().getUsername());
+        entity.setContent(" - Comment your post ");
+
         if (comment != null) {
+             if(!Objects.equals(userCommented.get().getId(), postInfo.get().getUserId())){
+                notifiControl.saveNotification(postMaster.get().getUsername(),entity);  
+            }   
             ApiResponse<Object> response = new ApiResponse<>(
                     "success",
                     HttpStatus.OK.value(),

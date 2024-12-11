@@ -16,7 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-     private final String[] PUBLIC_ENDPOINT={"/chat-socket/**","/api/files/{filename}","/api/users","/api/users/email/{email}","/api/users/username/{username}","/auth/login","/auth/token","/auth/logout","/api/users/all","/api/users/search/{keyword}"};
+     private final String[] PUBLIC_ENDPOINT={ "/ws-notifications/**","/chat-socket/**","/api/files/{filename}","/api/users","/api/users/email/{email}","/api/users/username/{username}","/api/auth/login","/api/auth/token","/auth/logout","/api/users/all","/api/users/search/{keyword}","/api/otp/send","/api/otp/verify"};
      protected static final String SIGNER_KEY ="ZD6omglDgYd6qxO8gTLZZoxOOfBHapKjf754nV8L9o1wxBH0jl0i1AW1oi/Lbygv";
      
     // .requestMatchers(HttpMethod.POST,PUBLIC_ENDPOINT).permitAll()

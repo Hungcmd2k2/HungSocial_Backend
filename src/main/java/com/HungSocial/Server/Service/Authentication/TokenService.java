@@ -90,7 +90,7 @@ public class TokenService {
 
 
 
-     public boolean validateToken(String email, String token) {
+     public boolean validateToken(String token) {
         try {
             // Phân tích token thành JWSObject
             JWSObject jwsObject = JWSObject.parse(token);
@@ -104,11 +104,11 @@ public class TokenService {
             JWTClaimsSet claims = JWTClaimsSet.parse(jwsObject.getPayload().toJSONObject());
 
             // Kiểm tra email và thời hạn của token
-            String tokenEmail = claims.getSubject();
+           
             Date expirationTime = claims.getExpirationTime();
           
 
-            return (tokenEmail.equals(email) && expirationTime.after(new Date()));
+            return (expirationTime.after(new Date()));
 
         } catch (ParseException | JOSEException e) {
             return false;

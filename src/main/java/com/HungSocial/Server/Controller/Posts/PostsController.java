@@ -9,13 +9,16 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.HungSocial.Server.DTO.Post.EditPostDTO;
 import com.HungSocial.Server.DTO.Response.ApiResponse;
 import com.HungSocial.Server.Entity.File.FileEntity;
 import com.HungSocial.Server.Entity.Posts.Post;
@@ -24,6 +27,7 @@ import com.HungSocial.Server.Entity.UserDetails.UserDetails;
 import com.HungSocial.Server.Service.File.FileService;
 import com.HungSocial.Server.Service.Posts.PostService;
 import com.HungSocial.Server.Service.User.UserService;
+
 
 @RestController
 @RequestMapping("/api/post")
@@ -105,4 +109,76 @@ public class PostsController {
         }
     }
 
+    //Delete Post by postID
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<ApiResponse<Object>> deletePost(@PathVariable Integer postId){
+        boolean delete = postService.deletePost(postId);
+        if(delete){
+            ApiResponse<Object> response = new ApiResponse<>(
+                "Success",
+                HttpStatus.OK.value(),
+                "Xóa bài viết thành công!",
+                null
+            );
+        return ResponseEntity.ok(response); 
+        }else{
+            ApiResponse<Object> response = new ApiResponse<>(
+                "Error",
+                HttpStatus.NOT_FOUND.value(),
+                "Xóa bài viết ko thành công!",
+                null
+            );
+        return ResponseEntity.ok(response); 
+        }
+    }
+    //Edit  post
+
+    @PutMapping("/edit")
+    public ResponseEntity<ApiResponse<Object>> editPost(@RequestBody EditPostDTO editPostDTO ) {
+           Post post = postService.editPost(editPostDTO);
+           if(post!=null){
+            ApiResponse<Object> response = new ApiResponse<>(
+                "Success",
+                HttpStatus.OK.value(),
+                "Sửa bài viết thành công!",
+                post
+            );
+        return ResponseEntity.ok(response); 
+           }
+           else{
+            ApiResponse<Object> response = new ApiResponse<>(
+                "Error",
+                HttpStatus.NOT_FOUND.value(),
+                "Sửa bài viết không thành công!",
+                post
+            );
+        return ResponseEntity.ok(response); 
+           }
+        
+       
+    }
+    @GetMapping("/postId/{postId}")
+    public ResponseEntity<ApiResponse<Object>> getPostbyId(@PathVariable Integer postId) {
+        Optional<Post> post = postService.findPostById(postId);
+        if(!post.isEmpty()){
+            ApiResponse<Object> response = new ApiResponse<>(
+                "Success",
+                HttpStatus.OK.value(),
+                "Lấy bài viết thành công!",
+                post
+            );
+        return ResponseEntity.ok(response); 
+        }
+        else{
+            ApiResponse<Object> response = new ApiResponse<>(
+                "Error",
+                HttpStatus.NOT_FOUND.value(),
+                "Lấy bài viết không thành công!",
+                null
+            );
+        return ResponseEntity.ok(response); 
+        }
+    }
+    
+    
 }
